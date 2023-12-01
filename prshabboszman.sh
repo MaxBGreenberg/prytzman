@@ -20,5 +20,5 @@ hebcal -tZC $CITY | grep Plag >> ~/hebcal.tmp					# Prints today's plag hamincha
 hebcal -tZC $CITY | grep Sunset >> ~/hebcal.tmp					# Prints today's sunset time to same file
 hebcal -ZcC $CITY $tomorrow >> ~/hebcal.tmp					# Prints tomorrow's zmanim and havdala time to same file
 cat ~/hebcal.tmp								# Prints file ~/hebcal.tmp to terminal
-#lp ~/hebcal.tmp								# Prints file ~/hebcal.tmp to line printer
-#rm ~/hebcal.tmp								# Removes file ~/hebcal.tmp
+lp ~/hebcal.tmp								# Prints file ~/hebcal.tmp to line printer
+rm ~/hebcal.tmp								# Removes file ~/hebcal.tmp
