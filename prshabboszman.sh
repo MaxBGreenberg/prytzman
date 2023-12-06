@@ -1,4 +1,6 @@
 # Shell script to print zmanim for shabbos of the current week to line printer
+# (C) Copyright Max Greenberg 2023
+# Licenced under GPLv2
 # Uses hebcal and GNU date
 # prshabboszman.sh is a UNIX shell script for printing zmnim
 # It uses hebcal to determine zmanim and GNU date to get the date input into hebcal
@@ -6,9 +8,7 @@
 # It will print some zmanim for the current day as well as all zmnim for the next day
 # It prints today's and tomorrow's Hebrew dates
 # and the current week's parsha
-# The intended time for use is Erev Shabbos to print Shabbos zmanim
-# It will run any day of the week, but will always use today's and tomorrow's dates
-# It is therefore not useful for prining Shabbos Zmanim in advance
+# It will run any day of the week
 #!/bin/sh
 
 DEFCITY='toronto'						# Sets default city for if now argument is passed
