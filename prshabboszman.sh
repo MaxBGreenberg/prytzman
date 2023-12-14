@@ -2,10 +2,11 @@
 # (C) Copyright Max Greenberg 2023
 # Licenced under GPLv2
 # Uses hebcal and GNU date
-# prshabboszman.sh is a UNIX shell script for printing zmnim
+# prshabboszman.sh is a UNIX shell script for printing shabbos zmanim
 # It uses hebcal to determine zmanim and GNU date to get the date input into hebcal
 # This came from a need to quickly print zmanim for Shabbos on Friday afternoon
-# It will print some zmanim for the current day as well as all zmnim for the next day
+# It will print select zmanim for the coming friday, all zmanimi for the comming saturday
+# The Hebrew dates of both days and the week's parsha
 # It prints today's and tomorrow's Hebrew dates
 # and the current week's parsha
 # It will run any day of the week
