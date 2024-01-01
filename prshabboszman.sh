@@ -16,10 +16,13 @@
 DEFCITY='toronto'						# Sets default city for if now argument is passed
 CITY="${@:-$DEFCITY}"						# Defines city we are calculating zmanim from standard input
 SUPRESS_LP=false						# Set programme to print output to printer by default
-SUPRESS_CAT=falase						# Set porgamme to print output to terminal by default
+SUPRESS_CAT=false						# Set porgamme to print output to terminal by default
 
+shift $((OPTIND - 1))
+shift
 # Process options
 while getopts ":lc" opt; do					# Get options
+echo "Processing option: -$opt, OPTIND: $OPTIND"
 	case $opt in
 	l)							# If -l option is used
 		SUPRESS_LP=true					# Supress printing to printer
@@ -33,9 +36,6 @@ while getopts ":lc" opt; do					# Get options
 	esac
 done
 
-# Shift positional arguments so that $1 refers to the location argument
-shift "$((OPTIND-1))"
-
 echo "Shabbos zmanim for "$CITY > /tmp/hebcal.tmp		# Prints city you're printing zmanim for
 FRI=$(date -dFriday '+%m %d %Y')				# Sets variable FRI to the date of Friday this week in format taken by hebcal
 SAT=$(date -dSaturday '+%m %d %Y')				# Sets variable SAT to the date of Saturday this week in format taken by hebcal
@@ -43,10 +43,10 @@ hebcal -ZC "${CITY}" $FRI |grep Plag >> /tmp/hebcal.tmp		# Prints today's plag h
 hebcal -ScC "${CITY}" $FRI >> /tmp/hebcal.tmp			# Prints today's hebrew date, current week's parsha, and candle lighting times to file ~/hebcal.tmp
 hebcal -ZC "${CITY}" $FRI | grep Sunset >> /tmp/hebcal.tmp	# Prints today's sunset time to same file
 hebcal -ZcC "${CITY}" $SAT >> /tmp/hebcal.tmp			# Prints tomorrow's zmanim and havdala time to same file
-if [ "SUPRESS_CAT=false" ]; then
+if [ $SUPRESS_CAT == false ]; then
 	cat /tmp/hebcal.tmp					# Prints file /tmp/hebcal.tmp to terminal unless supressed
 fi
-if  [ "SUPRESS_LP=false" ]; then
+if  [ $SUPRESS_LP == false ]; then
 	lp /tmp/hebcal.tmp					# Prints file /tmp/hebcal.tmp to line printer unless supressed
 fi
 rm /tmp/hebcal.tmp						# Removes file /tmp/hebcal.tmp
