@@ -18,8 +18,6 @@ CITY="${@:-$DEFCITY}"						# Defines city we are calculating zmanim from standar
 SUPRESS_LP=false						# Set programme to print output to printer by default
 SUPRESS_CAT=false						# Set porgamme to print output to terminal by default
 
-shift $((OPTIND - 1))
-shift
 # Process options
 while getopts ":lc" opt; do					# Get options
 echo "Processing option: -$opt, OPTIND: $OPTIND"
@@ -35,6 +33,8 @@ echo "Processing option: -$opt, OPTIND: $OPTIND"
 		exit 1						# And exit with error
 	esac
 done
+
+shift $((OPTIND - 1))
 
 echo "Shabbos zmanim for "$CITY > /tmp/hebcal.tmp		# Prints city you're printing zmanim for
 FRI=$(date -dFriday '+%m %d %Y')				# Sets variable FRI to the date of Friday this week in format taken by hebcal
