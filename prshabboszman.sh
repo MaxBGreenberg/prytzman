@@ -12,9 +12,6 @@
 # It will run any day of the week
 #!/bin/sh
 
-# Declare and define variables
-DEFCITY='toronto'						# Sets default city for if now argument is passed
-CITY="${@:-$DEFCITY}"						# Defines city we are calculating zmanim from standard input
 SUPRESS_LP=false						# Set programme to print output to printer by default
 SUPRESS_CAT=false						# Set porgamme to print output to terminal by default
 
@@ -35,6 +32,9 @@ echo "Processing option: -$opt, OPTIND: $OPTIND"
 done
 
 shift $((OPTIND - 1))
+
+DEFCIFTY='toronto'						# Sets default city for if no argument is passed
+CITY="${@:-$DEFCITY}"						# DEfines city we are calculating zmanim from standard input
 
 echo "Shabbos zmanim for "$CITY > /tmp/hebcal.tmp		# Prints city you're printing zmanim for
 FRI=$(date -dFriday '+%m %d %Y')				# Sets variable FRI to the date of Friday this week in format taken by hebcal
