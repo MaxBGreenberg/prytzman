@@ -17,7 +17,6 @@ SUPRESS_CAT=false						# Set porgamme to print output to terminal by default
 
 # Process options
 while getopts ":lc" opt; do					# Get options
-echo "Processing option: -$opt, OPTIND: $OPTIND"
 	case $opt in
 	l)							# If -l option is used
 		SUPRESS_LP=true					# Supress printing to printer
