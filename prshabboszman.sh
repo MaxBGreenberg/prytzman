@@ -34,6 +34,7 @@ done
 shift $((OPTIND - 1))
 
 DEFCIFTY='toronto'						# Sets default city for if no argument is passed
+DEFCITY='toronto'						# Sets default city for if no argument is passed
 CITY="${@:-$DEFCITY}"						# DEfines city we are calculating zmanim from standard input
 
 echo "Shabbos zmanim for "$CITY > /tmp/hebcal.tmp		# Prints city you're printing zmanim for
