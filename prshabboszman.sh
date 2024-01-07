@@ -33,11 +33,15 @@ done
 shift $((OPTIND - 1))
 
 DEFCITY='toronto'						# Sets default city for if no argument is passed
-CITY="${@:-$DEFCITY}"						# DEfines city we are calculating zmanim from standard input
+CITY="${@:-$DEFCITY}"						# Defines city we are calculating zmanim from standard input
+FRI=$(date -dFriday '+%m %d %Y')				# Set varaible FRI to the date of Friday this week in format taken by hebcal
+if [ "$(date +%u)" -eq 6 ]; then				# If today is Saturday
+	SAT=$(date -d "next Saturday" '+%m %d %Y')		# Set variable SAT to the date of the following Saturday in format taken by hebcal
+else								# If today is not Saturday
+	SAT=$(date -dSaturday '+%m %d %Y')			# Set variable SAT to the date of Saturday this week in format taken by hebcal
+fi
 
 echo "Shabbos zmanim for "$CITY > /tmp/hebcal.tmp		# Prints city you're printing zmanim for
-FRI=$(date -dFriday '+%m %d %Y')				# Sets variable FRI to the date of Friday this week in format taken by hebcal
-SAT=$(date -dSaturday '+%m %d %Y')				# Sets variable SAT to the date of Saturday this week in format taken by hebcal
 hebcal -SC "${CITY}" $FRI | grep -v Candle >> /tmp/hebcal.tmp	# Prints hebrew date of Erev Shabbos, parshas hashavua to file ~/hebcal.tmp
 hebcal -ZC "${CITY}" $FRI | grep Plag >> /tmp/hebcal.tmp	# Print zman plag hamincha for Erev Shabbos to the same file
 hebcal -ZcC "${CITY}" $FRI | grep Candle >> /tmp/hebcal.tmp	# Prints candle lighting time for this Shabbos to the same file
