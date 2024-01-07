@@ -38,10 +38,11 @@ CITY="${@:-$DEFCITY}"						# DEfines city we are calculating zmanim from standar
 echo "Shabbos zmanim for "$CITY > /tmp/hebcal.tmp		# Prints city you're printing zmanim for
 FRI=$(date -dFriday '+%m %d %Y')				# Sets variable FRI to the date of Friday this week in format taken by hebcal
 SAT=$(date -dSaturday '+%m %d %Y')				# Sets variable SAT to the date of Saturday this week in format taken by hebcal
-hebcal -ZC "${CITY}" $FRI |grep Plag >> /tmp/hebcal.tmp		# Prints today's plag hamincha time to the same file
-hebcal -ScC "${CITY}" $FRI >> /tmp/hebcal.tmp			# Prints today's hebrew date, current week's parsha, and candle lighting times to file ~/hebcal.tmp
-hebcal -ZC "${CITY}" $FRI | grep Sunset >> /tmp/hebcal.tmp	# Prints today's sunset time to same file
-hebcal -ZcC "${CITY}" $SAT >> /tmp/hebcal.tmp			# Prints tomorrow's zmanim and havdala time to same file
+hebcal -SC "${CITY}" $FRI | grep -v Candle >> /tmp/hebcal.tmp	# Prints hebrew date of Erev Shabbos, parshas hashavua to file ~/hebcal.tmp
+hebcal -ZC "${CITY}" $FRI | grep Plag >> /tmp/hebcal.tmp	# Print zman plag hamincha for Erev Shabbos to the same file
+hebcal -ZcC "${CITY}" $FRI | grep Candle >> /tmp/hebcal.tmp	# Prints candle lighting time for this Shabbos to the same file
+hebcal -ZC "${CITY}" $FRI | grep Sunset >> /tmp/hebcal.tmp	# Prints sunset time for Erev Shabbos to same file
+hebcal -ZcC "${CITY}" $SAT >> /tmp/hebcal.tmp			# Prints zmanim for Shabbos day and havdala time to same file
 if [ $SUPRESS_CAT == false ]; then
 	cat /tmp/hebcal.tmp					# Prints file /tmp/hebcal.tmp to terminal unless supressed
 fi
