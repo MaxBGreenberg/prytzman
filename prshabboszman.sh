@@ -12,17 +12,21 @@
 # It will run any day of the week
 #!/bin/sh
 
-SUPRESS_LP=false							# Set programme to print output to printer by default
+SUPRESS_LP=false								# Set programme to print output to printer by default
 SUPRESS_CAT=false								# Set programme to print output to terminal by default
+HELP=false									# Do not print help menu by default
 
 # Process options
-while getopts ":lc" opt; do							# Get options
+while getopts ":lch" opt; do							# Get options
 	case $opt in
 	l)									# If -l option is used
 		SUPRESS_LP=true							# Supress printing to printer
 		;;
 	c)									# If -c option is used
 		SUPRESS_CAT=true						# Supress printing to terminal
+		;;
+	h)
+		HELP=true
 		;;
 	\?)									# If invalid option is used
 		echo "Invalid option: -$OPTARG" >&2				# Print error message to terminal
@@ -31,6 +35,21 @@ while getopts ":lc" opt; do							# Get options
 done
 
 shift $((OPTIND - 1))
+
+if [ $HELP=true ]; then
+	printf "%s" "\
+Prshabboszman is a CLI tool for quickly printing Shabbos zmanim.
+By defualt, it will print zmanim to the terminal and line printer.
+It takes an opitional argument, a city name for which to print zmanim.
+
+Options:
+	-l	Suppress output to line printer
+	-c	Suppress output to terminal
+	-h	Print this help menu and exit
+
+"
+	exit 3
+fi
 
 DEFCITY='toronto'								# Sets default city for if no argument is passed
 CITY="${@:-$DEFCITY}"								# Defines city we are calculating zmanim from standard input
