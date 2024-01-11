@@ -32,6 +32,21 @@ done
 
 shift $((OPTIND - 1))
 
+if [ $HELP == true ]; then
+	printf "%s" "\
+Prshabboszman is a CLI tool for quickly printing Shabbos zmanim.
+By defualt, it will print zmanim to the terminal and line printer.
+It takes an opitional argument, a city name for which to print zmanim.
+
+Options:
+	-l	Suppress output to line printer
+	-c	Suppress output to terminal
+	-h	Print this help menu and exit
+
+"
+	exit 3
+fi
+
 DEFCITY='toronto'								# Sets default city for if no argument is passed
 CITY="${@:-$DEFCITY}"								# Defines city we are calculating zmanim from standard input
 
