@@ -36,7 +36,7 @@ done
 
 shift $((OPTIND - 1))
 
-if [ $HELP=true ]; then
+if [ $HELP == true ]; then
 	printf "%s" "\
 Prshabboszman is a CLI tool for quickly printing Shabbos zmanim.
 By defualt, it will print zmanim to the terminal and line printer.
