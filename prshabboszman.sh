@@ -14,7 +14,7 @@
 
 SUPRESS_LP=false								# Set programme to print output to printer by default
 SUPRESS_CAT=false								# Set programme to print output to terminal by default
-HELP=flase
+HELP=false
 
 # Process options
 while getopts ":lch" opt; do							# Get options
