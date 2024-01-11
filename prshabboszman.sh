@@ -12,17 +12,20 @@
 # It will run any day of the week
 #!/bin/sh
 
-SUPRESS_LP=false							# Set programme to print output to printer by default
+SUPRESS_LP=false								# Set programme to print output to printer by default
 SUPRESS_CAT=false								# Set programme to print output to terminal by default
+HELP=flase
 
 # Process options
-while getopts ":lc" opt; do							# Get options
+while getopts ":lch" opt; do							# Get options
 	case $opt in
 	l)									# If -l option is used
 		SUPRESS_LP=true							# Supress printing to printer
 		;;
 	c)									# If -c option is used
 		SUPRESS_CAT=true						# Supress printing to terminal
+		;;
+	h)	HELP=true
 		;;
 	\?)									# If invalid option is used
 		echo "Invalid option: -$OPTARG" >&2				# Print error message to terminal
