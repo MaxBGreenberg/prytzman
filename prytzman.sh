@@ -1,15 +1,12 @@
-# Shell script to print zmanim for shabbos of the current week to line printer
+# Shell script to print zmanim for the upcoming chag to line printer and standard output
 # (C) Copyright Max Greenberg 2023
 # Licenced under GPLv2
 # Uses hebcal and GNU date
-# prshabboszman.sh is a UNIX shell script for printing shabbos zmanim
+# prytzman.sh is a UNIX shell script for printing yom tov zmanim
 # It uses hebcal to determine zmanim and GNU date to get the date input into hebcal
-# This came from a need to quickly print zmanim for Shabbos on Friday afternoon
-# It will print select zmanim for the coming friday, all zmanimi for the comming saturday
-# The Hebrew dates of both days and the week's parsha
-# It prints today's and tomorrow's Hebrew dates
-# and the current week's parsha
+# This came from a need to quickly print zmanim for yom tov
 # It will run any day of the week
+# Fork of prshabboszman
 #!/bin/sh
 
 SUPRESS_LP=false								# Set programme to print output to printer by default
@@ -61,14 +58,18 @@ if [ $? -ne 0 ]; then								# If hebcal returns an error code
 	exit 2									# Exit with error code
 fi
 
-FRI=$(date -dFriday '+%m %d %Y')						# Set varaible FRI to the date of Friday this week in format taken by hebcal
-if [ "$(date +%u)" -eq 6 ]; then						# If today is Saturday
-	SAT=$(date -d "next Saturday" '+%m %d %Y')				# Set variable SAT to the date of the following Saturday in format taken by hebcal
-else										# If today is not Saturday
-	SAT=$(date -dSaturday '+%m %d %Y')					# Set variable SAT to the date of Saturday this week in format taken by hebcal
-fi
+TODAY=$(date -d 'today' +%s)                                           		# Today's date as UNIX timestamp at midnight
+NEXTYEAR=$(date -d "next year" +%Y)                                    		# Next year in full
+while IFS= read -r line; do                                            		# Loop through list
+        DATE=$(echo "$line" | awk '{print $1}')                         	# Get first word of each line
+        DATE_UNIX=$(date -d "$DATE" +%s)                                	# Convert first of each line to UNIX timestamp
+        CHAG=$(echo "$line" | sed 's/^[^ ]* //')                        	# Get rest of line after first white space
+        if [[ $DATE_UNIX -ge $TODAY ]]; then                            	# Check if unix timestamp for chag is greater than unix timestamp for today
+                break								# Break out of while loop at first date after or equal to today
+        fi
+done < <(hebcal --chag-only && hebcal --chag-only $NEXTYEAR)			# Feed list of chagim for this year and next year into while loop
 
-echo "Shabbos zmanim for "$CITY > /tmp/hebcal.tmp				# Prints city you're printing zmanim for
+echo "Yom Tov zmanim for "$CITY > /tmp/hebcal.tmp				# Prints city you're printing zmanim for
 hebcal -SC "${CITY}" $FRI | grep -v Candle >> /tmp/hebcal.tmp			# Prints hebrew date of Erev Shabbos, parshas hashavua to file ~/hebcal.tmp
 hebcal -ZC "${CITY}" $FRI | grep Plag >> /tmp/hebcal.tmp			# Print zman plag hamincha for Erev Shabbos to the same file
 hebcal -ZcC "${CITY}" $FRI | grep Candle >> /tmp/hebcal.tmp			# Prints candle lighting time for this Shabbos to the same file
