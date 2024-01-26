@@ -58,6 +58,8 @@ if [ $? -ne 0 ]; then								# If hebcal returns an error code
 	exit 2									# Exit with error code
 fi
 
+# Logic to determine next chag
+# Based on my nextchag project
 TODAY=$(date -d 'today' +%s)                                           		# Today's date as UNIX timestamp at midnight
 NEXTYEAR=$(date -d "next year" +%Y)                                    		# Next year in full
 while IFS= read -r line; do                                            		# Loop through list
