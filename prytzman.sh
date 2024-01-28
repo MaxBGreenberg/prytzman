@@ -35,7 +35,7 @@ shift $((OPTIND - 1))
 
 if [ $HELP == true ]; then
 	printf "%s" "\
-Prshabboszman is a CLI tool for quickly printing Shabbos zmanim.
+Prytzman is a CLI tool for quickly printing zmanim for the upcoming yom tov.
 By defualt, it will print zmanim to the terminal and line printer.
 It takes an opitional argument, a city name for which to print zmanim.
 
