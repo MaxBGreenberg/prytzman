@@ -60,11 +60,11 @@ fi
 
 # Logic to determine next chag
 # Based on my nextchag project
-TODAY=$(date -d 'today' +%s)                                           		# Today's date as UNIX timestamp at midnight
+TODAYU=$(date -d 'today' +%s)	                                         	# Today's date as UNIX timestamp at midnight
 NEXTYEAR=$(date -d "next year" +%Y)                                    		# Next year in full
 while IFS= read -r line; do                                            		# Loop through list
-        DATE=$(echo "$line" | awk '{print $1}')                         	# Get first word of each line
-        DATE_UNIX=$(date -d "$DATE" +%s)                                	# Convert first of each line to UNIX timestamp
+        CHAGDATE=$(echo "$line" | awk '{print $1}')                         	# Get first word of each line
+        CHAGDATEU=$(date -d "$DATE" +%s)           		                # Convert first of each line to UNIX timestamp
         CHAG=$(echo "$line" | sed 's/^[^ ]* //')                        	# Get rest of line after first white space
         if [[ $DATE_UNIX -ge $TODAY ]]; then                            	# Check if unix timestamp for chag is greater than unix timestamp for today
                 break								# Break out of while loop at first date after or equal to today
