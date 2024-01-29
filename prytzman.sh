@@ -71,17 +71,19 @@ while IFS= read -r line; do                                            		# Loop 
         fi
 done < <(hebcal --chag-only && hebcal --chag-only $NEXTYEAR)			# Feed list of chagim for this year and next year into while loop
 
-echo "Yom Tov zmanim for "$CITY > /tmp/hebcal.tmp				# Prints city you're printing zmanim for
-hebcal -SC "${CITY}" $FRI | grep -v Candle >> /tmp/hebcal.tmp			# Prints hebrew date of Erev Shabbos, parshas hashavua to file ~/hebcal.tmp
-hebcal -ZC "${CITY}" $FRI | grep Plag >> /tmp/hebcal.tmp			# Print zman plag hamincha for Erev Shabbos to the same file
-hebcal -ZcC "${CITY}" $FRI | grep Candle >> /tmp/hebcal.tmp			# Prints candle lighting time for this Shabbos to the same file
-hebcal -ZC "${CITY}" $FRI | grep Sunset >> /tmp/hebcal.tmp			# Prints sunset time for Erev Shabbos to same file
-hebcal -ZcC "${CITY}" $SAT >> /tmp/hebcal.tmp					# Prints zmanim for Shabbos day and havdala time to same file
+CHAGDATEH=date -d $CHAGDATE "+%m %d %Y"						# Convert date of next chag to format taken by hebcal as input
+
+echo "Yom Tov zmanim for "$CITY > /tmp/psz.tmp				# Prints city you're printing zmanim for
+hebcal -SC "${CITY}" $FRI | grep -v Candle >> /tmp/psz.tmp			# Prints hebrew date of Erev Shabbos, parshas hashavua to file ~/psz.tmp
+hebcal -ZC "${CITY}" $FRI | grep Plag >> /tmp/psz.tmp			# Print zman plag hamincha for Erev Shabbos to the same file
+hebcal -ZcC "${CITY}" $FRI | grep Candle >> /tmp/psz.tmp			# Prints candle lighting time for this Shabbos to the same file
+hebcal -ZC "${CITY}" $FRI | grep Sunset >> /tmp/psz.tmp			# Prints sunset time for Erev Shabbos to same file
+hebcal -ZcC "${CITY}" $SAT >> /tmp/psz.tmp					# Prints zmanim for Shabbos day and havdala time to same file
 if [ $SUPRESS_CAT == false ]; then
-	cat /tmp/hebcal.tmp							# Prints file /tmp/hebcal.tmp to terminal unless supressed
+	cat /tmp/psz.tmp							# Prints file /tmp/psz.tmp to terminal unless supressed
 fi
 if  [ $SUPRESS_LP == false ]; then
-	lp /tmp/hebcal.tmp							# Prints file /tmp/hebcal.tmp to line printer unless supressed
+	lp /tmp/psz.tmp							# Prints file /tmp/psz.tmp to line printer unless supressed
 fi
-rm /tmp/hebcal.tmp								# Removes file /tmp/hebcal.tmp
+rm /tmp/psz.tmp								# Removes file /tmp/psz.tmp
 exit 0										# Exit with success code
